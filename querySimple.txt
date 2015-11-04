@@ -1,0 +1,9 @@
+SELECT   
+	vendor_id,
+	COUNT(*) as count
+
+FROM
+	[imjasonh-storage:nyctaxi.trip_data]
+
+GROUP BY
+	vendor_id;

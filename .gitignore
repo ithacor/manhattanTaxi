@@ -1,0 +1,9 @@
+venv/
+
+client_secrets.json
+*.dat
+projectID.txt
+
+*.csv
+*.json
+*.pyc

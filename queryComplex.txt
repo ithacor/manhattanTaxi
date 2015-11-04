@@ -1,0 +1,41 @@
+SELECT
+	trip_data.medallion,
+	trip_data.hack_license,
+	trip_fare.payment_type,
+	sum(FLOAT(trip_data.trip_time_in_secs)) as trip_time_in_secs,
+	sum(FLOAT(trip_data.trip_distance)) as trip_distance,
+	sum(FLOAT(trip_data.passenger_count)) as passenger_count,
+	sum(FLOAT(trip_fare.fare_amount)) as fare_amount, 
+	sum(FLOAT(trip_fare.surcharge)) as surcharge, 
+	sum(FLOAT(trip_fare.mta_tax)) as mta_tax, 
+	sum(FLOAT(trip_fare.tip_amount)) as tip_amount, 
+	sum(FLOAT(trip_fare.tolls_amount)) as tolls_amount, 
+	sum(FLOAT(trip_fare.total_amount)) as total_amount
+
+FROM (
+	SELECT
+		medallion,
+		hack_license,
+		pickup_datetime,
+		DAYOFYEAR (pickup_datetime) as day,
+		HOUR (pickup_datetime) as hour,
+		passenger_count,
+		trip_time_in_secs,
+		trip_distance
+	
+	FROM
+		[imjasonh-storage:nyctaxi.trip_data] 
+) as trip_data
+
+JOIN EACH
+	[imjasonh-storage:nyctaxi.trip_fare] as trip_fare
+
+ON
+	trip_data.medallion = trip_fare.medallion
+	AND trip_data.hack_license = trip_fare.hack_license
+	AND trip_data.pickup_datetime = trip_fare.pickup_datetime
+
+GROUP BY
+	trip_data.medallion, 
+	trip_data.hack_license,
+	trip_fare.payment_type;
