@@ -1,0 +1,24 @@
+# Python
+venv/
+
+client_secrets.json
+*.dat
+projectID.txt
+
+*.csv
+*.json
+*.pyc
+
+
+# R
+.Rapp.history
+Background/
+Data/
+GIS/
+R/RData/
+
+R/packrat/*
+!R/packrat/packrat.lock 
+!R/packrat/packrat.opts
+!R/packrat/init.R
+
